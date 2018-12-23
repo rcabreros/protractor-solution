@@ -8,14 +8,12 @@ describe('test 2', function() {
   it('click the first video under UP NEXT', function() {    
     
     var EC = protractor.ExpectedConditions;
-    // Waits for the element with id 'myCheckbox' to be selected.
     browser.wait(EC.elementToBeSelected($('#items')), 5000);
     element(by.xpath('//*[@id="items"]/ytd-compact-autoplay-renderer//a[@id="thumbnail"]')).click();    
   });
   it('go back to youtube and verify', function() {
 
     element(by.id('logo-icon-container')).click();
-    var EC = protractor.ExpectedConditions;
     browser.wait(EC.titleIs('YouTube'), 15000);
     browser.wait(EC.urlContains('youtube'), 15000);
 
