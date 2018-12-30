@@ -1,5 +1,7 @@
 describe('test 3', function() {
   it('logging into the app', function() {
+    browser.waitForAngularEnabled(false);
+    browser.manage().window().maximize();
     browser.get('https://automation.dev.coinspectapp.com/');
 
     element(by.xpath('//input[@name="email"]')).sendKeys('qa_technicaltest');
@@ -8,21 +10,33 @@ describe('test 3', function() {
   });
   it('starting inspection', function() {    
     
-    element(by.css('[ng-click="openImpromptuForm()"]')).click();
+    element(by.css('div[ng-click="openImpromptuForm()"]')).click();
 
     var EC = protractor.ExpectedConditions;
-    browser.wait(EC.presenceOf($('#create-inspection')), 5000);
-    element(by.id('withOutUnitsDropdown')).click();
-    browser.wait(EC.presenceOf($('#withOutUnitsDropdown-overlay')), 5000);
-    element(by.xpath('//*[@id="withOutUnitsDropdown-overlay"]//span[contains(.,"Automation A")]')).click();
-    browser.wait(EC.presenceOf($('#impromptuChecklistDropdown')), 5000);
-    element(by.xpath('//*[@id="impromptuChecklistDropdown-overlay"]//span[contains(.,"Automated Color Test")]')).click();
-    element(by.css('[ng-click="create()"]')).click();
+    browser.wait(EC.presenceOf($('#create-inspection')), 15000);
+    element(by.xpath('//button[@id="withOutUnitsDropdown"]')).click();
+    var autoA = element(by.xpath('//*[@id="withOutUnitsDropdown-overlay"]//span[contains(.,"Automation A")]'));
+    browser.wait(EC.presenceOf(autoA), 15000);
+    autoA.click();
+    var secDropdown = element(by.xpath('//button[@id="impromptuChecklistDropdown"]'));
+    browser.wait(EC.presenceOf(secDropdown), 15000);
+    secDropdown.click();
+    
+    var autoColor = element(by.xpath('//*[@id="impromptuChecklistDropdown-overlay"]//span[contains(.,"Automated Color Test")]'));
+    browser.wait(EC.presenceOf(autoColor), 15000);
+    autoColor.click();
+    element(by.css('button[ng-click="create()"]')).click();
   });
   it('answering question 1 randomly', function() {
 
-    element(by.xpath('//header[@ng-click="group.expanded = !group.expanded"]')).click();
-    element(by.xpath('//header[@ng-click="group.expanded = !group.expanded"]/following-sibling::ul/li[1]')).click();
+    var EC = protractor.ExpectedConditions;
+    browser.ignoreSynchronization = true;
+    var q1 = element(by.xpath('//header[@ng-click="group.expanded = !group.expanded"]'));
+    browser.wait(EC.presenceOf(q1), 15000);
+    q1.click();
+    var q1_show = element(by.xpath('//header[@ng-click="group.expanded = !group.expanded"]/following-sibling::ul/li[1]'));
+    browser.wait(EC.presenceOf(q1_show), 15000);
+    q1_show.click();
     
     let list = element.all(by.xpath('//label[contains(.,"Answer")]/following-sibling::div/div'));
     var options = Math.floor((Math.random() * list.count()) + 1);
@@ -31,8 +45,8 @@ describe('test 3', function() {
 
     var comments = ["Saab", "Volvo", "BMW","hello world", "comment 1", "new comment", "this is protractor!", "from protractor", "watching tv", "so cold", "the babysitter", "reading books"];
     var pics = ["pic-1.png", "pic-2.png", "pic-3.png", "pic-4.png", "pic-5.png", "pic-6.png"]
-    var opt_comment = Math.floor((Math.random() * comments.count()) + 1);
-    var opt_pic = Math.floor((Math.random() * pics.count()) + 1);
+    var opt_comment = Math.floor((Math.random() * comments.length) + 1);
+    var opt_pic = Math.floor((Math.random() * pics.length) + 1);
     var filepath = "/home/mycomputer/ryan/pics/";
     element(by.xpath('//textarea')).sendKeys(comments[opt_comment]);
     element(by.xpath('//input[@capture="camera" and @type="file"]')).sendKeys(filepath + pics[opt_pic]);
@@ -60,8 +74,8 @@ describe('test 3', function() {
 
     var comments = ["Saab", "Volvo", "BMW","hello world", "comment 1", "new comment", "this is protractor!", "from protractor", "watching tv", "so cold", "the babysitter", "reading books"];
     var pics = ["pic-1.png", "pic-2.png", "pic-3.png", "pic-4.png", "pic-5.png", "pic-6.png"]
-    var opt_comment = Math.floor((Math.random() * comments.count()) + 1);
-    var opt_pic = Math.floor((Math.random() * pics.count()) + 1);
+    var opt_comment = Math.floor((Math.random() * comments.length) + 1);
+    var opt_pic = Math.floor((Math.random() * pics.length) + 1);
     var filepath = "/home/mycomputer/ryan/pics/";
     element(by.xpath('//textarea')).sendKeys(comments[opt_comment]);
     element(by.xpath('//input[@capture="camera" and @type="file"]')).sendKeys(filepath + pics[opt_pic]);
@@ -85,8 +99,8 @@ describe('test 3', function() {
 
     var comments = ["Saab", "Volvo", "BMW","hello world", "comment 1", "new comment", "this is protractor!", "from protractor", "watching tv", "so cold", "the babysitter", "reading books"];
     var pics = ["pic-1.png", "pic-2.png", "pic-3.png", "pic-4.png", "pic-5.png", "pic-6.png"]
-    var opt_comment = Math.floor((Math.random() * comments.count()) + 1);
-    var opt_pic = Math.floor((Math.random() * pics.count()) + 1);
+    var opt_comment = Math.floor((Math.random() * comments.length) + 1);
+    var opt_pic = Math.floor((Math.random() * pics.length) + 1);
     var filepath = "/home/mycomputer/ryan/pics/";
     element(by.xpath('//textarea')).sendKeys(comments[opt_comment]);
     element(by.xpath('//input[@capture="camera" and @type="file"]')).sendKeys(filepath + pics[opt_pic]);
@@ -106,13 +120,13 @@ describe('test 3', function() {
 
     var EC = protractor.ExpectedConditions;
     browser.wait(EC.elementToBeSelected(by.model('ngModel')), 15000);
-    var num_data = Math.floor((Math.random() * 20 + 1);
+    var num_data = Math.floor((Math.random() * 20) + 1);
     element(by.model('ngModel')).sendKeys(num_data);
 
     var comments = ["Saab", "Volvo", "BMW","hello world", "comment 1", "new comment", "this is protractor!", "from protractor", "watching tv", "so cold", "the babysitter", "reading books"];
     var pics = ["pic-1.png", "pic-2.png", "pic-3.png", "pic-4.png", "pic-5.png", "pic-6.png"]
-    var opt_comment = Math.floor((Math.random() * comments.count()) + 1);
-    var opt_pic = Math.floor((Math.random() * pics.count()) + 1);
+    var opt_comment = Math.floor((Math.random() * comments.length) + 1);
+    var opt_pic = Math.floor((Math.random() * pics.length) + 1);
     var filepath = "/home/mycomputer/ryan/pics/";
     element(by.xpath('//textarea')).sendKeys(comments[opt_comment]);
     element(by.xpath('//input[@capture="camera" and @type="file"]')).sendKeys(filepath + pics[opt_pic]);
