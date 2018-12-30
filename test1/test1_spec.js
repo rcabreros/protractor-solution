@@ -6,7 +6,7 @@ describe('test 1', function() {
 
     var EC = protractor.ExpectedConditions;
     var elem1 = $('a.gb_b.gb_qc');
-    //browser.wait(EC.elementToBeSelected(elem1), 15000, 'Element taking too long to appear in the DOM');
+    browser.wait(EC.presenceOf(elem1), 15000, 'Element taking too long to appear in the DOM');
     elem1.click();
 
 
