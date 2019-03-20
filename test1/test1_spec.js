@@ -1,28 +1,26 @@
-describe('test 1', function() {
+describe('test 1', () => {
 
-  var until = protractor.ExpectedConditions;
-
-  beforeAll(function() {
+  beforeAll(() => {
 
     browser.waitForAngularEnabled(false);
     browser.manage().window().maximize();
     browser.get('https://www.google.com', 15000);
+  
   });
 
-  it('from google to youtube', function() {    
-    
-    var elem1 = $('#gbwa');
-    browser.wait(until.presenceOf(elem1), 15000, 'Element taking too long to appear in the DOM');
-    elem1.click();
+  var google_home = require('./page/google_home.js');
 
-    var elem = $('#gb36');
-    browser.wait(until.presenceOf(elem), 15000, 'Element taking too long to appear in the DOM');
-    elem.click();
+  it('from google to youtube', () => {    
     
-    browser.wait(until.titleIs('YouTube'), 15000);
-    browser.wait(until.urlContains('youtube'), 15000);
+    google_home.clickGApps();
+    //google_home.selectYoutube();
+    var youtube_home = google_home.selectYoutube();
+    
+    youtube_home.getTitle().then((text) => {
+    	expect(text).toEqual('YouTube');
+    });
 
-    expect(browser.getTitle()).toEqual('YouTube');
-    expect(browser.getCurrentUrl()).toEqual('https://www.youtube.com/?gl=PH');
+    expect(browser.getCurrentUrl()).toContain('www.youtube.com');
+
   });
 });

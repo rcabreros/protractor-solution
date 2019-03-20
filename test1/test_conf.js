@@ -1,6 +1,8 @@
 // An example configuration file.
 exports.config = {
   directConnect: true,
+  //baseUrl: 'https://www.google.com',
+  //seleniumAddress: 'http://localhost:4444/wd/hub',
 
   // Capabilities to be passed to the webdriver instance.
   capabilities: {
@@ -8,7 +10,7 @@ exports.config = {
   },
 
   // Framework to use. Jasmine is recommended.
-  framework: 'jasmine',
+  //framework: 'jasmine',
 
   // Spec patterns are relative to the current working directory when
   // protractor is called.
@@ -16,6 +18,7 @@ exports.config = {
 
   // Options to be passed to Jasmine.
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000
+    showColors: true,
+    defaultTimeoutInterval: 50000
   }
 };
